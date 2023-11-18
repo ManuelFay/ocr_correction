@@ -21,7 +21,7 @@ print(dataset)
 # transform the dataset to a format that can be used by the trainer
 dataset = dataset.map(
     lambda e: {
-        "text": "OCR:\n\n" + e["text"] + "Version Corrigée:\n\n" + e["clean_text"],
+        "text": "\n\nOCR:\n\n" + e["text"] + "\n\nVersion Corrigée:\n\n" + e["clean_text"],
         "file": e["file"],
     })
 
@@ -69,6 +69,7 @@ trainer = SFTTrainer(
     tokenizer=tokenizer,
     train_dataset=dataset,
     dataset_text_field="text",
+    packing=False,
     max_seq_length=2048,
     peft_config=lora_config,
 )
