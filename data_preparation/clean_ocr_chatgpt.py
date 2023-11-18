@@ -32,7 +32,7 @@ responses = openai_connector.multi_requests(
     prompts,
     max_requests_per_second=50,
     progress_desc="Cleaning corpus",
-    max_catching_retries=3,
+    max_catching_retries=1,
     clean_cache_at_end=False,
 )
 
@@ -41,7 +41,9 @@ responses = openai_connector.multi_requests(
 def generator():
     for file, response, text in zip(dataset['file'], responses, dataset['text']):
         # add failsafe on response status
-        yield {'file': file, 'clean_text': response.text, 'text': text}
+        if response.status == "OK":
+            # verify that response.text is fairly similar to text using word overlap
+            yield {'file': file, 'clean_text': response.text, 'text': text}
 
 new_dataset = datasets.Dataset.from_generator(generator)
 

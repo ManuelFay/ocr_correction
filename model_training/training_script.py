@@ -3,15 +3,17 @@ from trl import SFTTrainer
 import torch
 import argparse
 
-# parse model_path and dataset_path from command line
+# parse model_path and dataset_path from command line, as well as output_dir
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model_path", type=str, required=True)
 parser.add_argument("--dataset_path", type=str, required=True)
+parser.add_argument("--output_dir", type=str, default="./data/results", required=False)
 args = parser.parse_args()
 
 MODEL_PATH = args.model_path
 DATASET_PATH = args.dataset_path
+OUTPUT_DIR = args.output_dir
 
 dataset = load_dataset(DATASET_PATH, split="train")
 
@@ -41,7 +43,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH,
                                              torch_dtype=torch.float16)
 
 training_args = TrainingArguments(
-    output_dir="./data/results",
+    output_dir=OUTPUT_DIR,
     overwrite_output_dir=True,
     num_train_epochs=3,
     per_device_train_batch_size=16,
