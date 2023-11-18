@@ -40,7 +40,8 @@ lora_config = LoraConfig(
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 tokenizer.pad_token = tokenizer.eos_token
 model = AutoModelForCausalLM.from_pretrained(MODEL_PATH,
-                                             torch_dtype=torch.float16
+                                             torch_dtype=torch.float16,
+                                             device="cuda",
                                              )
 
 training_args = TrainingArguments(
