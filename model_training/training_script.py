@@ -74,3 +74,6 @@ trainer = SFTTrainer(
     peft_config=lora_config,
 )
 trainer.train()
+
+# save the model
+trainer.save_model(OUTPUT_DIR)
