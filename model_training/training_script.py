@@ -16,6 +16,7 @@ DATASET_PATH = args.dataset_path
 OUTPUT_DIR = args.output_dir
 
 dataset = load_dataset(DATASET_PATH, split="train")
+print(dataset)
 
 # transform the dataset to a format that can be used by the trainer
 dataset = dataset.map(
@@ -23,6 +24,9 @@ dataset = dataset.map(
         "text": "OCR:\n\n" + e["text"] + "Version Corrigée:\n\n" + e["clean_text"],
         "file": e["file"],
     })
+
+print(dataset)
+print(dataset[0])
 
 
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments
