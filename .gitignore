@@ -1,0 +1,6 @@
+data/
+.cache
+venv/
+.idea/
+*.pyc
+
