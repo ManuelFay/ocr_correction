@@ -60,7 +60,9 @@ training_args = TrainingArguments(
     dataloader_num_workers=8,
     lr_scheduler_type="cosine",
     warmup_ratio=0.1,
-    logging_steps=10)
+    logging_steps=10,
+    hub_model_id="manu/ocr_correction",
+)
 
 
 trainer = SFTTrainer(
@@ -77,3 +79,4 @@ trainer.train()
 
 # save the model
 trainer.save_model(OUTPUT_DIR)
+trainer.push_to_hub()
