@@ -1,8 +1,19 @@
 from datasets import load_dataset
 from trl import SFTTrainer
 import torch
+import argparse
 
-dataset = load_dataset("manu/gallica_ocr_cleaned", split="train")
+# parse model_path and dataset_path from command line
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--model_path", type=str, required=True)
+parser.add_argument("--dataset_path", type=str, required=True)
+args = parser.parse_args()
+
+MODEL_PATH = args.model_path
+DATASET_PATH = args.dataset_path
+
+dataset = load_dataset(DATASET_PATH, split="train")
 
 # transform the dataset to a format that can be used by the trainer
 dataset = dataset.map(
@@ -11,7 +22,7 @@ dataset = dataset.map(
         "file": e["file"],
     })
 
-MODEL_PATH = "/home/manuel/lm-evaluation-harness/data/small5/small5"
+
 from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments
 # make a peft config
 from peft import LoraConfig
