@@ -40,14 +40,14 @@ lora_config = LoraConfig(
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 tokenizer.pad_token = tokenizer.eos_token
 model = AutoModelForCausalLM.from_pretrained(MODEL_PATH,
-                                             # torch_dtype=torch.float16
+                                             torch_dtype=torch.float16
                                              )
 
 training_args = TrainingArguments(
     output_dir=OUTPUT_DIR,
     overwrite_output_dir=True,
     num_train_epochs=3,
-    per_device_train_batch_size=8,
+    per_device_train_batch_size=4,
     save_steps=100,
     save_total_limit=2,
     fp16=True,
@@ -65,6 +65,6 @@ trainer = SFTTrainer(
     train_dataset=dataset,
     dataset_text_field="text",
     max_seq_length=2048,
-    # peft_config=lora_config,
+    peft_config=lora_config,
 )
 trainer.train()
