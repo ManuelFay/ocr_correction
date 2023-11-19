@@ -51,7 +51,7 @@ model = AutoModelForCausalLM.from_pretrained(MODEL_PATH,
 training_args = TrainingArguments(
     output_dir=OUTPUT_DIR,
     overwrite_output_dir=True,
-    num_train_epochs=3,
+    num_train_epochs=10,
     per_device_train_batch_size=2,
     save_steps=100,
     save_total_limit=2,
@@ -61,6 +61,7 @@ training_args = TrainingArguments(
     lr_scheduler_type="cosine",
     warmup_ratio=0.1,
     logging_steps=10,
+    learning_rate=3e-5,
     hub_model_id="manu/ocr_correction",
 )
 
@@ -72,7 +73,7 @@ trainer = SFTTrainer(
     train_dataset=dataset,
     dataset_text_field="text",
     packing=False,
-    max_seq_length=2048,
+    max_seq_length=1024,
     peft_config=lora_config,
 )
 trainer.train()
