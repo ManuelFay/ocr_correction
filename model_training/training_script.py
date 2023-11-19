@@ -21,7 +21,7 @@ print(dataset)
 # transform the dataset to a format that can be used by the trainer
 dataset = dataset.map(
     lambda e: {
-        "text": "\n\nOCR:\n\n" + e["text"] + "\n\nVersion Corrigée:\n\n" + e["clean_text"],
+        "text": "\n\nOCR:\n\n" + e["text"][:700] + "\n\nVersion Corrigée:\n\n" + e["clean_text"][:800],
         "file": e["file"],
     })
 
@@ -61,7 +61,7 @@ training_args = TrainingArguments(
     lr_scheduler_type="cosine",
     warmup_ratio=0.1,
     logging_steps=10,
-    learning_rate=3e-5,
+    # learning_rate=3e-5,
     hub_model_id="manu/ocr_correction",
 )
 
